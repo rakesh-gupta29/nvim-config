@@ -1,4 +1,1 @@
-- copilot suport.
-- debugger config
--  auto rename tag for html
-- 
+# My Neovim config

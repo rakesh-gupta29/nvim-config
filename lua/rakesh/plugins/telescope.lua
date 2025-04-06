@@ -20,7 +20,7 @@ return {
 			local entry = action_state.get_selected_entry()
 			local target_path = vim.fn.fnamemodify(entry.path or entry.filename or entry[1], ":p")
 
-			-- Check tabs for the open file
+			-- Check all tabs for the open file
 			for tab = 1, vim.fn.tabpagenr("$") do
 				local tabpage = vim.api.nvim_list_tabpages()[tab]
 				local wins = vim.api.nvim_tabpage_list_wins(tabpage)
@@ -31,13 +31,22 @@ return {
 						actions.close(prompt_bufnr)
 						vim.cmd(tab .. "tabnext")
 						vim.fn.win_gotoid(win)
+
+						-- Jump to line if available
+						if entry.lnum then
+							vim.api.nvim_win_set_cursor(win, { entry.lnum, entry.col or 0 })
+						end
 						return
 					end
 				end
 			end
 
-			-- Open the file if not open
-			actions.select_default(prompt_bufnr)
+			-- Fallback: Open file at correct line
+			actions.close(prompt_bufnr)
+			vim.cmd("edit " .. target_path)
+			if entry.lnum then
+				vim.api.nvim_win_set_cursor(0, { entry.lnum, entry.col or 0 })
+			end
 		end
 
 		local custom_actions = transform_mod({
@@ -70,20 +79,24 @@ return {
 		local keymap = vim.keymap
 
 		keymap.set({ "n", "v" }, "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Fuzzy find files in cwd" })
+
 		keymap.set(
 			{ "n", "v" },
 			"<leader>fj",
 			"<cmd>Telescope live_grep<CR>",
 			{ desc = "Find string in cwd (smart-case)" }
 		)
+
 		keymap.set({ "n", "v" }, "<leader>fJ", function()
 			require("telescope").extensions.live_grep_args.live_grep_args({
 				default_text = "--case-sensitive ",
 			})
 		end, { desc = "Find string in cwd (case-sensitive)" })
+
 		keymap.set({ "n", "v" }, "<leader>fn", "<cmd>Telescope current_buffer_fuzzy_find<CR>", {
 			desc = "Find string in current file",
 		})
+
 		keymap.set({ "n", "v" }, "<leader>ft", "<cmd>TodoTelescope<CR>", { desc = "Find TODOs" })
 	end,
 }

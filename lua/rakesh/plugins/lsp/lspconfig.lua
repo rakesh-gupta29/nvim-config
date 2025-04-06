@@ -36,22 +36,17 @@ return {
 
 				-- set keybinds
 				opts.desc = "Show LSP type definitions"
-				keymap.set("n", "gh", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
+				keymap.set("n", "<leader>st", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
 
 				opts.desc = "See available code actions"
 				keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
 
-				opts.desc = "Smart rename"
-				keymap.set("n", "<leader>sr", vim.lsp.buf.rename, opts) -- smart rename
-
 				opts.desc = "Show buffer diagnostics"
-				keymap.set("n", "<leader>dk", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+				keymap.set("n", "<leader>dl", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 
-				opts.desc = "Go to previous diagnostic"
-				keymap.set("n", "<leader>dp", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-
-				opts.desc = "Go to next diagnostic"
-				keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+				vim.keymap.set("n", "<leader>do", function()
+					vim.diagnostic.open_float(nil, { focus = true, border = "rounded" })
+				end, { desc = "Show diagnostic in float" })
 
 				-- helpful for inporting the module under cursor
 				vim.keymap.set("n", "<leader>sh", function()
@@ -62,12 +57,8 @@ return {
 					end)
 				end, { desc = "Trigger completion at end of word" })
 
-				vim.keymap.set("n", "<leader>do", function()
-					vim.diagnostic.open_float(nil, { focus = true, border = "rounded" })
-				end, { desc = "Show diagnostic in float" })
-
 				opts.desc = "Show documentation for what is under cursor"
-				keymap.set("n", "M", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+				keymap.set("n", "N", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
 				opts.desc = "Restart LSP"
 				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary

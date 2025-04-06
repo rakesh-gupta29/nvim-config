@@ -34,16 +34,6 @@ return {
 			},
 			git = { ignore = false },
 			on_attach = function(bufnr)
-				local function opts(desc)
-					return {
-						desc = "nvim-tree: " .. desc,
-						buffer = bufnr,
-						noremap = true,
-						silent = true,
-						nowait = true,
-					}
-				end
-
 				api.config.mappings.default_on_attach(bufnr)
 
 				-- Search where file is imported
@@ -65,7 +55,6 @@ return {
 			end,
 		})
 
-		-- ✅ Open file in buffer after creation
 		api.events.subscribe(api.events.Event.FileCreated, function(file)
 			vim.cmd("edit " .. file.fname)
 		end)

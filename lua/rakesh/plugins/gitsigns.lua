@@ -19,7 +19,7 @@ return {
 			},
 			current_line_blame = true,
 			current_line_blame_opts = {
-				delay = 300,
+				delay = 1000,
 				virt_text = false, -- hide inline text, since we're using lualine
 			},
 			preview_config = {

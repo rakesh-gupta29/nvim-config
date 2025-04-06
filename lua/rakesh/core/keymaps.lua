@@ -27,6 +27,8 @@ vim.keymap.set("n", "Y", "gg0yG<C-o>", { desc = "Select all" }) -- select all an
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- remove highlight from search
 
 vim.keymap.set({ "n", "v" }, "<leader>w", ":w!<CR>", { noremap = true, silent = true }) -- Write the file
+vim.keymap.set({ "n", "v" }, "<leader>W", "<cmd>wa<CR>", { noremap = true, silent = true }) -- Write all open files
+
 vim.keymap.set("n", "<leader>q", ":x!<CR>", { noremap = true, silent = true }) -- Save and quit
 vim.keymap.set("n", "p", '"+p', { noremap = true, silent = true }) -- Paste from clipboard
 vim.keymap.set("n", "U", "<C-r>", { noremap = true, silent = true }) -- redo
@@ -44,9 +46,6 @@ vim.keymap.set("v", "n", "<Esc>", opts)
 -- TODO:  ctrl + p is being overwritten. need to check
 vim.keymap.set("i", "<C-i>", "<C-r>+", { desc = "Paste system clipboard in insert mode" })
 vim.keymap.set("x", "<leader>p", [["_dP]]) -- replace selected text with clipboard text
-
-vim.keymap.set({ "n", "v" }, "<leader>b", "gc", { remap = true, desc = "Toggle line comment" })
-vim.keymap.set({ "n", "v" }, "<leader>B", "gb", { remap = true, desc = "Toggle block comment" })
 
 -- relace all for a file
 vim.keymap.set("n", "<leader>rb", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])

@@ -1,3 +1,4 @@
+-- quick floating terminal
 return {
 	"akinsho/toggleterm.nvim",
 	version = "*",

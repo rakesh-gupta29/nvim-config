@@ -22,6 +22,8 @@ vim.keymap.set({ "n", "v" }, "dd", '"_dd', { desc = "Delete line without yanking
 vim.keymap.set("n", "xx", "dd", { desc = "Cut line and yank" }) -- normal mode cut line
 vim.keymap.set("v", "xx", "d", { desc = "Cut selection and yank" }) -- visual cut line
 
+vim.keymap.set("i", "<C-BS>", "<C-w>", { desc = "Delete word before cursor" })
+
 vim.keymap.set("i", "<C-h>", "<C-w>", { desc = "Delete word before cursor (fallback)" })
 vim.keymap.set("n", "Y", "gg0yG<C-o>", { desc = "Select all" }) -- select all and yank
 

@@ -9,6 +9,9 @@ vim.keymap.set("n", "<C-k>", "gk", { desc = "Move up wrapped line" })
 vim.keymap.set("n", "<A-j>", "5j", { desc = "Jump to next paragraph" })
 vim.keymap.set("n", "<A-k>", "5k", { desc = "Jump to previous paragraph" })
 
+vim.keymap.set({ "n", "v" }, "<A-h>", "5h", { noremap = true, silent = true, desc = "Move left faster" })
+vim.keymap.set({ "n", "v" }, "<A-l>", "5l", { noremap = true, silent = true, desc = "Move right faster" })
+
 -- move selections up and down
 vim.keymap.set("n", "J", ":m .+1<CR>==", opts)
 vim.keymap.set("n", "K", ":m .-2<CR>==", opts)

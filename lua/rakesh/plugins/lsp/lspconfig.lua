@@ -76,27 +76,39 @@ return {
 						local target = result[1] or result
 						local uri = target.uri or target.targetUri
 						local target_path = vim.uri_to_fname(uri)
-
-						-- Normalize paths
 						target_path = vim.fn.fnamemodify(target_path, ":p")
 
-						-- Look through all tabs and windows
-						for tab = 1, vim.fn.tabpagenr("$") do
-							local win_ids = vim.api.nvim_tabpage_list_wins(vim.api.nvim_list_tabpages()[tab])
-							for _, win in ipairs(win_ids) do
+						-- Check if the target is already open in any tab/window
+						local found = false
+						for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+							local wins = vim.api.nvim_tabpage_list_wins(tab)
+							for _, win in ipairs(wins) do
 								local buf = vim.api.nvim_win_get_buf(win)
-								local buf_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":p")
+								local buf_path = vim.api.nvim_buf_get_name(buf)
+								buf_path = vim.fn.fnamemodify(buf_path, ":p")
 								if buf_path == target_path then
-									vim.cmd(tab .. "tabnext")
-									vim.fn.win_gotoid(win)
-									return
+									-- Switch to the found tab and window
+									vim.api.nvim_set_current_tabpage(tab)
+									vim.api.nvim_set_current_win(win)
+									-- Jump to the location in the current window
+									vim.lsp.util.jump_to_location(target, "utf-8")
+									found = true
+									break
 								end
+							end
+							if found then
+								break
 							end
 						end
 
-						vim.lsp.util.jump_to_location(target, "utf-8")
+						if not found then
+							-- Open in a new tab and jump to location
+							vim.cmd("tabnew")
+							vim.lsp.util.jump_to_location(target, "utf-8")
+						end
 					end)
 				end, opts)
+
 				opts.desc = "Show references"
 				keymap.set("n", "<leader>sk", "<cmd>Telescope lsp_references<CR>", opts)
 			end,

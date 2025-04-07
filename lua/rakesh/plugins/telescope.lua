@@ -20,7 +20,6 @@ return {
 			local entry = action_state.get_selected_entry()
 			local target_path = vim.fn.fnamemodify(entry.path or entry.filename or entry[1], ":p")
 
-			-- Check all tabs for the open file
 			for tab = 1, vim.fn.tabpagenr("$") do
 				local tabpage = vim.api.nvim_list_tabpages()[tab]
 				local wins = vim.api.nvim_tabpage_list_wins(tabpage)
@@ -41,7 +40,6 @@ return {
 				end
 			end
 
-			-- Fallback: Open file at correct line
 			actions.close(prompt_bufnr)
 			vim.cmd("edit " .. target_path)
 			if entry.lnum then
@@ -61,6 +59,7 @@ return {
 				mappings = {
 					i = {
 						["<CR>"] = smart_open,
+						["<C-o>"] = actions.select_tab,
 						["<C-k>"] = actions.move_selection_previous,
 						["<C-j>"] = actions.move_selection_next,
 						["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,

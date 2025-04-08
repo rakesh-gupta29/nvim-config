@@ -26,6 +26,7 @@ vim.keymap.set("n", "xx", "dd", { desc = "Cut line and yank" }) -- normal mode c
 vim.keymap.set("v", "xx", "d", { desc = "Cut selection and yank" }) -- visual cut line
 
 vim.keymap.set("i", "<C-BS>", "<C-w>", { desc = "Delete word before cursor" })
+vim.keymap.set("i", "<C-H>", "<C-w>", { desc = "Delete previous word in insert mode" })
 
 vim.keymap.set("n", "Y", "gg0yG<C-o>", { desc = "Select all" }) -- select all and yank
 
@@ -56,10 +57,10 @@ vim.keymap.set("n", "<leader>rb", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 
 vim.keymap.set("n", "<leader>q", "<cmd>q<CR>", { desc = "Quit window" })
 
-vim.keymap.set("i", "<S-CR>", "<Esc>o", { desc = "Insert new line below (like VS Code)" })
+vim.keymap.set("i", "<A-CR>", "<Esc>o", { desc = "Insert new line below (like VS Code)" })
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
+vim.api.nvim_create_autocmd("textyankpost", {
+	desc = "highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
@@ -68,7 +69,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- save all and quit
 vim.keymap.set("n", "<leader>sw", function()
-	vim.cmd("SessionSave") -- Save the session for current dir
+	vim.cmd("sessionsave") -- save the session for current dir
 	vim.cmd("wa") -- write all unsaved buffers
 	vim.cmd("qa") -- quit all
 end, { desc = "save all and quit" })

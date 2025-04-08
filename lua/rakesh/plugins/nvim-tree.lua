@@ -11,7 +11,7 @@ return {
 		nvimtree.setup({
 			view = {
 				width = 45,
-				relativenumber = true,
+				relativenumber = false,
 			},
 			renderer = {
 				indent_markers = { enable = true },
@@ -38,7 +38,6 @@ return {
 				api.config.mappings.default_on_attach(bufnr)
 
 				-- Track previous window before NvimTree focus
-				local previous_win = nil
 				vim.api.nvim_create_autocmd("BufEnter", {
 					callback = function()
 						if vim.bo.filetype == "nvimtree" then
@@ -48,7 +47,7 @@ return {
 					group = vim.api.nvim_create_augroup("NvimTreeFocusTrack", { clear = true }),
 				})
 
-				-- Enhanced file opener with perfect focus handling
+				-- TODO: update this function with ref from wiki of nvim-tree
 				vim.keymap.set("n", "<Enter>", function()
 					local node = api.tree.get_node_under_cursor()
 					if not node then
@@ -60,7 +59,6 @@ return {
 					else
 						local file_path = vim.fn.fnamemodify(node.absolute_path, ":p")
 
-						-- Check existing windows across tabs
 						local target_tab, target_win
 						for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
 							for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
@@ -89,22 +87,8 @@ return {
 					end
 				end, { buffer = bufnr, desc = "Smart open file" })
 
-				-- Additional Ctrl-t mapping for explicit new tab
-				vim.keymap.set("n", "<C-t>", function()
-					local node = api.tree.get_node_under_cursor()
-					if node and node.type == "file" then
-						local original_tab = vim.api.nvim_get_current_tabpage()
-						api.node.open.tab()
-						vim.cmd("-tabnext")
-						if previous_win and vim.api.nvim_win_is_valid(previous_win) then
-							vim.api.nvim_set_current_win(previous_win)
-						end
-						vim.cmd("tabnext")
-					end
-				end, { buffer = bufnr, desc = "Open in new tab" })
-
 				-- Search where file is imported
-				vim.keymap.set("n", "<leader>ci", function()
+				vim.keymap.set("n", "<leader>ic", function()
 					local node = api.tree.get_node_under_cursor()
 					local filename = node.name
 					if filename then
@@ -127,8 +111,8 @@ return {
 		end)
 
 		local keymap = vim.keymap
+		keymap.set({ "n", "v" }, "<leader>ef", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" })
 		keymap.set({ "n", "v" }, "<leader>ek", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
-		keymap.set({ "n", "v" }, "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" })
 		keymap.set({ "n", "v" }, "<leader>ej", function()
 			local view = require("nvim-tree.view")
 			if view.is_visible() then

@@ -59,11 +59,11 @@ return {
 				mappings = {
 					i = {
 						["<CR>"] = smart_open,
-						["<C-o>"] = actions.select_tab,
-						["<C-k>"] = actions.move_selection_previous,
+						-- open the selection in new tab
 						["<C-j>"] = actions.move_selection_next,
+						["<C-k>"] = actions.move_selection_previous,
+						["<C-o>"] = actions.select_tab,
 						["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
-						["<C-t>"] = trouble_telescope.open,
 					},
 					n = {
 						["<CR>"] = smart_open,

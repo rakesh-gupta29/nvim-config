@@ -10,7 +10,6 @@ return {
 				typescript = { "prettierd" },
 				javascriptreact = { "prettierd" },
 				typescriptreact = { "prettierd" },
-				svelte = { "prettierd" },
 				css = { "prettierd" },
 				html = { "prettierd" },
 				json = { "prettierd" },
@@ -26,14 +25,13 @@ return {
 			},
 		})
 
-		vim.keymap.set({ "n", "v" }, "<leader>mp", function()
-			conform.format({
+		-- Autocmd to format file on custom event
+		vim.api.nvim_create_user_command("Fmt", function()
+			require("conform").format({
 				lsp_fallback = false,
 				async = false,
 				timeout_ms = 1000,
 			})
-		end, {
-			desc = "Format file or range (in visual mode)",
-		})
+		end, { desc = "Format file with Conform" })
 	end,
 }

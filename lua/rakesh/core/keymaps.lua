@@ -27,7 +27,6 @@ vim.keymap.set("v", "xx", "d", { desc = "Cut selection and yank" }) -- visual cu
 
 vim.keymap.set("i", "<C-BS>", "<C-w>", { desc = "Delete word before cursor" })
 
-vim.keymap.set("i", "<C-h>", "<C-w>", { desc = "Delete word before cursor (fallback)" })
 vim.keymap.set("n", "Y", "gg0yG<C-o>", { desc = "Select all" }) -- select all and yank
 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- remove highlight from search
@@ -49,7 +48,6 @@ vim.keymap.set("n", "<leader>n", "o<Esc>", opts)
 
 vim.keymap.set("v", "n", "<Esc>", opts)
 
--- TODO:  ctrl + p is being overwritten. need to check
 vim.keymap.set("i", "<C-i>", "<C-r>+", { desc = "Paste system clipboard in insert mode" })
 vim.keymap.set("x", "<leader>p", [["_dP]]) -- replace selected text with clipboard text
 
@@ -68,15 +66,16 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- Save all and quit
+-- save all and quit
 vim.keymap.set("n", "<leader>sw", function()
-	vim.cmd("wa") -- Write all unsaved buffers
-	vim.cmd("qa") -- Quit all
-end, { desc = "Save all and quit" })
+	vim.cmd("SessionSave") -- Save the session for current dir
+	vim.cmd("wa") -- write all unsaved buffers
+	vim.cmd("qa") -- quit all
+end, { desc = "save all and quit" })
 
--- Force quit without saving
+-- force quit without saving
 vim.keymap.set("n", "<leader>sq", function()
-	vim.cmd("qa!") -- Quit all without saving
-end, { desc = "Force quit without saving" })
+	vim.cmd("qa!") -- quit all without saving
+end, { desc = "force quit without saving" })
 
--- TODO: you can use leader j command for something. that is unused right now.
+-- todo: you can use leader j command for something. that is unused right now.

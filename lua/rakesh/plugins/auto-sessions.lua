@@ -10,13 +10,6 @@ return {
 			auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
 		})
 
-		local keymap = vim.keymap
-
-		-- restore last workspace session for current directory
-		keymap.set("n", "<leader>hr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" })
-
-		-- save workspace session for current working directory
-		keymap.set("n", "<leader>hs", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" })
+		-- currently saving the session on editor close. ref: keymaps.lua:72
 	end,
 }
-

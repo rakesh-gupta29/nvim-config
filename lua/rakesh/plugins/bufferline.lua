@@ -5,7 +5,7 @@ return {
 	config = function()
 		require("bufferline").setup({
 			options = {
-				mode = "tabs", -- use "buffers" to manage buffers, "tabs" for actual tabs
+				mode = "tabs",
 				diagnostics = "nvim_lsp",
 				show_close_icon = true,
 				show_buffer_close_icons = true,
@@ -16,7 +16,7 @@ return {
 		vim.keymap.set({ "n", "v" }, "<Tab>", ":BufferLineCycleNext<CR>", { desc = "Next tab" })
 		vim.keymap.set({ "n", "v" }, "<S-Tab>", ":BufferLineCyclePrev<CR>", { desc = "Previous tab" })
 
-		vim.keymap.set("n", "<leader>qa", function()
+		vim.keymap.set("n", "<leader>cb", function()
 			local total_tabs = vim.fn.tabpagenr("$")
 			for _ = 1, total_tabs - 1 do
 				vim.cmd("tabclose")

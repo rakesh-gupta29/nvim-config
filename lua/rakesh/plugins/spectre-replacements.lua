@@ -3,7 +3,7 @@ return {
 	dependencies = { "nvim-lua/plenary.nvim" },
 	keys = {
 		{
-			"<leader>rk",
+			"<leader>rw",
 			function()
 				require("spectre").open_visual({ select_word = true })
 			end,

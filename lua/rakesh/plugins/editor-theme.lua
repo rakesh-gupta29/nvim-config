@@ -13,11 +13,12 @@ return {
 		},
 		options = {
 			cursorline = true,
-			transparency = false, -- set to true for transparent bg
+			transparency = false,
 		},
 	},
+
 	config = function(_, opts)
 		require("onedarkpro").setup(opts)
-		vim.cmd("colorscheme onedark") -- or "onelight", "onedark_vivid"
+		vim.cmd("colorscheme onedark")
 	end,
 }

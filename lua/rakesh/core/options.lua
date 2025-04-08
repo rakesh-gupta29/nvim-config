@@ -27,6 +27,7 @@ vim.opt.shiftwidth = 2 -- 2 spaces for indent width
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true -- expand tab to spaces
 vim.opt.autoindent = true -- copy indent from current line when starting new one
+
 -- wrap the word
 vim.opt.wrap = true
 vim.opt.linebreak = true

@@ -11,7 +11,7 @@ return {
 				changedelete = { text = "~" },
 			},
 			signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-			numhl = false, -- Show in number column
+			numhl = true, -- Show in number column
 			linehl = false, -- Highlight entire line
 			watch_gitdir = {
 				interval = 1000,

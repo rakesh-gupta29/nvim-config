@@ -52,8 +52,13 @@ vim.keymap.set("v", "n", "<Esc>", opts)
 vim.keymap.set("i", "<C-i>", "<C-r>+", { desc = "Paste system clipboard in insert mode" })
 vim.keymap.set("x", "<leader>p", [["_dP]]) -- replace selected text with clipboard text
 
+vim.keymap.set("n", "ciw", '"_ciw', { noremap = true, silent = true })
+
 -- relace all for a file
-vim.keymap.set("n", "<leader>rb", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>wb", [[:%s/\<<c-r><c-w>\>/<c-r><c-w>/gi<left><left><left>]])
+vim.keymap.set("v", "<leader>wb", '"sy:%s/<C-r>s/<C-r>s/gI<left><left><left>', {
+	desc = "Replace selected word globally (ignore case)",
+})
 
 vim.keymap.set("n", "<leader>q", "<cmd>q<CR>", { desc = "Quit window" })
 
@@ -69,7 +74,6 @@ vim.api.nvim_create_autocmd("textyankpost", {
 
 -- save all and quit
 vim.keymap.set("n", "<leader>sw", function()
-	vim.cmd("sessionsave") -- save the session for current dir
 	vim.cmd("wa") -- write all unsaved buffers
 	vim.cmd("qa") -- quit all
 end, { desc = "save all and quit" })

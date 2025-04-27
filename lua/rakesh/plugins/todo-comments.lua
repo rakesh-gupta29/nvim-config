@@ -5,7 +5,23 @@ return {
 	config = function()
 		local todo_comments = require("todo-comments")
 
-		-- keymaps for this are defined in the telescope config
-		todo_comments.setup()
+		todo_comments.setup({
+			keywords = {
+				PR = {
+					icon = "",
+					color = "error",
+					alt = { "PULLREQUEST", "MERGE" },
+				},
+				TASK = {
+					icon = "💀",
+					color = "info",
+					alt = { "TODO", "TASKS", "ACTION" },
+				},
+			},
+			highlight = {
+				keyword = "bg",
+				after = "",
+			},
+		})
 	end,
 }

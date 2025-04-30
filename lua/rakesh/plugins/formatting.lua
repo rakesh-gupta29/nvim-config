@@ -3,7 +3,6 @@ return {
 	event = { "BufReadPre", "BufNewFile" },
 	config = function()
 		local conform = require("conform")
-
 		conform.setup({
 			formatters_by_ft = {
 				javascript = { "prettierd" },
@@ -12,32 +11,36 @@ return {
 				typescriptreact = { "prettierd" },
 				css = { "prettierd" },
 				html = { "prettierd" },
+				astro = { "prettier" }, -- Using regular prettier for Astro
 				json = { "prettierd" },
 				yaml = { "prettierd" },
 				markdown = { "prettierd" },
 				liquid = { "prettierd" },
 				lua = { "stylua" },
-				go = { "gofumpt", "goimports", "golines" }, -- ✅ Go formatters
+				go = { "gofumpt", "goimports", "golines" },
 			},
 			formatters = {
 				prettierd = {
-					-- Fallback default config if .prettierrc.json is missing/broken
+					prefer_local = "node_modules/.bin",
+					extra_args = { "--single-quote", "--trailing-comma", "es5", "--tab-width", "2", "--semi" },
+				},
+				prettier = { -- Add configuration for regular prettier
 					prefer_local = "node_modules/.bin",
 					extra_args = { "--single-quote", "--trailing-comma", "es5", "--tab-width", "2", "--semi" },
 				},
 			},
-			format_on_save = {
-				lsp_fallback = true, -- ✅ fallback to lsp if formatter fails
-				async = false,
-				timeout_ms = 1000,
+			-- Change to format_after_save instead of format_on_save
+			format_after_save = {
+				lsp_fallback = true,
+				async = true, -- Set to true for better performance
+				timeout_ms = 500, -- Reduce timeout
 			},
 		})
-
 		vim.api.nvim_create_user_command("Fmt", function()
 			require("conform").format({
-				lsp_fallback = true, -- ✅ also fallback manually if user types :Fmt
+				lsp_fallback = true,
 				async = false,
-				timeout_ms = 1000,
+				timeout_ms = 500, -- Reduce manual format timeout too
 			})
 		end, { desc = "Format file with Conform" })
 	end,

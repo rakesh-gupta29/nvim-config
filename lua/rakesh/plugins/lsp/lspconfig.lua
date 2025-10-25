@@ -24,6 +24,15 @@ return {
 
 		local keymap = vim.keymap -- for conciseness
 
+		-- Configure diagnostics to show virtual text (inline errors)
+		vim.diagnostic.config({
+			virtual_text = true, -- Show inline error messages
+			signs = true, -- Show signs in the gutter
+			underline = true, -- Underline problematic text
+			update_in_insert = false, -- Don't update diagnostics while typing
+			severity_sort = true, -- Sort by severity
+		})
+
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 			callback = function(ev)

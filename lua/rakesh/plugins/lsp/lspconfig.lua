@@ -200,6 +200,15 @@ return {
 					},
 				})
 			end,
+			["tsserver"] = function()
+				lspconfig.tsserver.setup({
+					capabilities = capabilities,
+					filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+					init_options = {
+						hostInfo = "neovim",
+					},
+				})
+			end,
 		})
 	end,
 }

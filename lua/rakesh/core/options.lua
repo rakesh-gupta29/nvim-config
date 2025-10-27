@@ -36,7 +36,7 @@ vim.opt.breakindent = true -- wrapped lines maintain the same indentation
 
 -- sync clipboard of neovim and OS
 vim.schedule(function()
-	vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = "unnamedplus"
 end)
 
 vim.opt.undofile = false -- no need to persist histories across sessions
@@ -77,3 +77,7 @@ vim.opt.scrolloff = 10
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.opt.confirm = true
+
+-- avante config requirement
+-- views can only be fully collapsed with the global statusline
+vim.opt.laststatus = 3

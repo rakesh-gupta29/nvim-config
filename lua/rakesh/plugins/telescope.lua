@@ -13,7 +13,6 @@ return {
 		local actions = require("telescope.actions")
 		local action_state = require("telescope.actions.state")
 		local trouble = require("trouble")
-		local trouble_telescope = require("trouble.sources.telescope")
 		local transform_mod = require("telescope.actions.mt").transform_mod
 
 		local function smart_open(prompt_bufnr)
@@ -31,7 +30,6 @@ return {
 						vim.cmd(tab .. "tabnext")
 						vim.fn.win_gotoid(win)
 
-						-- Jump to line if available
 						if entry.lnum then
 							vim.api.nvim_win_set_cursor(win, { entry.lnum, entry.col or 0 })
 						end
@@ -56,10 +54,17 @@ return {
 		telescope.setup({
 			defaults = {
 				path_display = { "smart" },
+
+				file_ignore_patterns = {
+					"node_modules",
+					".git/",
+					"dist/",
+					"build/",
+				},
+
 				mappings = {
 					i = {
 						["<CR>"] = smart_open,
-						-- open the selection in new tab
 						["<C-j>"] = actions.move_selection_next,
 						["<C-k>"] = actions.move_selection_previous,
 						["<C-o>"] = actions.select_tab,

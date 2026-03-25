@@ -72,6 +72,12 @@ return {
 					},
 					n = {
 						["<CR>"] = smart_open,
+						["j"] = actions.move_selection_next,
+						["k"] = actions.move_selection_previous,
+						["p"] = function(prompt_bufnr)
+							local clipboard = vim.fn.getreg("+")
+							require("telescope.actions.state").get_current_picker(prompt_bufnr):set_prompt(clipboard)
+						end,
 					},
 				},
 			},

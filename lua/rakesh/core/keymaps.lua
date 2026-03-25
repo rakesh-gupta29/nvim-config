@@ -43,6 +43,8 @@ vim.keymap.set("n", "U", "<C-r>", { noremap = true, silent = true }) -- redo
 vim.keymap.set("n", "i", "a", opts)
 vim.keymap.set("n", "a", "i", opts)
 
+vim.keymap.set("n", "<leader>aa", "ggvG$", { desc = "Select all" })
+
 vim.keymap.set("v", "i", "<Esc>`>a", opts)
 
 vim.keymap.set("n", "<leader>n", "o<Esc>", opts)

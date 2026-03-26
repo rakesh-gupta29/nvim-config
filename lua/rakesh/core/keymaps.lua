@@ -28,6 +28,8 @@ vim.keymap.set("v", "xx", "d", { desc = "Cut selection and yank" }) -- visual cu
 vim.keymap.set("i", "<C-BS>", "<C-w>", { desc = "Delete word before cursor" })
 vim.keymap.set("i", "<C-H>", "<C-w>", { desc = "Delete previous word in insert mode" })
 
+vim.keymap.set("n", "<leader>aa", "ggvG$", { desc = "Select all" })
+
 vim.keymap.set("n", "Y", "gg0yG<C-o>", { desc = "Select all" }) -- select all and yank
 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- remove highlight from search

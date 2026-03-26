@@ -14,22 +14,32 @@ return {
 		local action_state = require("telescope.actions.state")
 		local trouble = require("trouble")
 		local transform_mod = require("telescope.actions.mt").transform_mod
-
 		local function smart_open(prompt_bufnr)
 			local entry = action_state.get_selected_entry()
-			local target_path = vim.fn.fnamemodify(entry.path or entry.filename or entry[1], ":p")
 
-			for tab = 1, vim.fn.tabpagenr("$") do
-				local tabpage = vim.api.nvim_list_tabpages()[tab]
-				local wins = vim.api.nvim_tabpage_list_wins(tabpage)
-				for _, win in ipairs(wins) do
+			if not entry then
+				actions.close(prompt_bufnr)
+				return
+			end
+
+			local raw = entry.path or entry.filename or entry[1]
+			if not raw or raw == "" then
+				vim.notify("smart_open: could not resolve path from entry", vim.log.levels.WARN)
+				actions.close(prompt_bufnr)
+				return
+			end
+
+			local target_path = vim.fn.fnamemodify(raw, ":p")
+
+			for _, tabpage in ipairs(vim.api.nvim_list_tabpages()) do
+				local tab_nr = vim.api.nvim_tabpage_get_number(tabpage)
+				for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tabpage)) do
 					local buf = vim.api.nvim_win_get_buf(win)
 					local buf_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":p")
 					if buf_path == target_path then
 						actions.close(prompt_bufnr)
-						vim.cmd(tab .. "tabnext")
+						vim.cmd(tab_nr .. "tabnext")
 						vim.fn.win_gotoid(win)
-
 						if entry.lnum then
 							vim.api.nvim_win_set_cursor(win, { entry.lnum, entry.col or 0 })
 						end
@@ -39,12 +49,12 @@ return {
 			end
 
 			actions.close(prompt_bufnr)
-			vim.cmd("edit " .. target_path)
+			-- fnameescape prevents breakage on spaces / special chars
+			vim.cmd("edit " .. vim.fn.fnameescape(target_path))
 			if entry.lnum then
 				vim.api.nvim_win_set_cursor(0, { entry.lnum, entry.col or 0 })
 			end
 		end
-
 		local custom_actions = transform_mod({
 			open_trouble_qflist = function()
 				trouble.toggle("quickfix")
@@ -72,6 +82,12 @@ return {
 					},
 					n = {
 						["<CR>"] = smart_open,
+						["j"] = actions.move_selection_next,
+						["k"] = actions.move_selection_previous,
+						["p"] = function(prompt_bufnr)
+							local clipboard = vim.fn.getreg("+")
+							require("telescope.actions.state").get_current_picker(prompt_bufnr):set_prompt(clipboard)
+						end,
 					},
 				},
 			},

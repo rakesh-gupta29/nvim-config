@@ -1,23 +1,44 @@
 return {
 	"kevinhwang91/nvim-ufo",
 	dependencies = { "kevinhwang91/promise-async" },
+
 	config = function()
-		vim.o.foldlevel = 99 -- open everything by default
+		-- Fold settings
+		vim.o.foldlevel = 99
 		vim.o.foldenable = true
 
-		require("ufo").setup({
+		local ufo = require("ufo")
+
+		ufo.setup({
 			provider_selector = function(_, _, _)
 				return { "treesitter", "indent" }
 			end,
 		})
 
-		-- Define user commands instead of keymaps
-		vim.api.nvim_create_user_command("Openfolds", function()
-			require("ufo").openAllFolds()
-		end, { desc = "Open all folds with UFO" })
+		-- ========================
+		-- 🔑 KEYMAPS (FIXED)
+		-- ========================
 
-		vim.api.nvim_create_user_command("Closefolds", function()
-			require("ufo").closeAllFolds()
-		end, { desc = "Close all folds with UFO" })
+		-- ✅ Fold ONLY current block (function / tag)
+		vim.keymap.set("n", "<leader>jl", "zc", { desc = "Fold current" })
+
+		-- ✅ Open ONLY current block
+		vim.keymap.set("n", "<leader>kl", "zo", { desc = "Open current" })
+
+		vim.keymap.set("n", "<leader>ll", "za", { desc = "Toggle fold" })
+
+		-- 👀 Peek folded content (UFO feature)
+		vim.keymap.set("n", "<leader>LL", function()
+			local winid = ufo.peekFoldedLinesUnderCursor()
+			if not winid then
+				vim.lsp.buf.hover()
+			end
+		end, { desc = "Peek fold / hover" })
+
+		-- ========================
+		-- (Optional) Global controls
+		-- ========================
+		vim.keymap.set("n", "zR", ufo.openAllFolds, { desc = "Open all folds" })
+		vim.keymap.set("n", "zM", ufo.closeAllFolds, { desc = "Close all folds" })
 	end,
 }

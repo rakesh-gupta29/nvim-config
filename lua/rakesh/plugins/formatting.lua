@@ -18,6 +18,7 @@ return {
 				liquid = { "prettierd" },
 				lua = { "stylua" },
 				go = { "gofumpt", "goimports", "golines" },
+				rust = { "rustfmt" },
 			},
 			formatters = {
 				prettierd = {

@@ -102,10 +102,27 @@ return {
 				keymap.set("n", "<leader>sk", "<cmd>Telescope lsp_references<CR>", opts)
 			end,
 		})
+
 		require("mason-lspconfig").setup({
 			handlers = {
 				function(server_name)
 					lspconfig[server_name].setup({ capabilities = capabilities })
+				end,
+				["rust_analyzer"] = function()
+					lspconfig["rust_analyzer"].setup({
+						capabilities = capabilities,
+						settings = {
+							["rust-analyzer"] = {
+								cargo = {
+									allFeatures = true,
+								},
+								checkOnSave = true,
+								check = {
+									command = "clippy",
+								},
+							},
+						},
+					})
 				end,
 				["emmet_ls"] = function()
 					lspconfig["emmet_ls"].setup({
